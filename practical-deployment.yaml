@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: practical
-        image: martinskis/practical:test
+        image: martinskis/practical
         ports:
         - containerPort: 3000
         env:
@@ -33,7 +33,7 @@ spec:
               name: practical-app
               key: mongodb_url
         - name: NODE_ENV
-          value: development
+          value: production
         resources:
           limits:
             cpu: 500m
