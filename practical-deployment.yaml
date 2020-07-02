@@ -60,8 +60,9 @@ metadata:
     kubernetes.io/ingress.class: alb
       #alb.ingress.kubernetes.io/subnets: subnet-a4f0098e,subnet-457ed533,subnet-95c904cd
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
-    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 8080}, {"HTTPS":8443}]'
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "8443", "StatusCode": "HTTP_302"}}'
+    alb.ingress.kubernetes.io/success-codes: 200,302
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:120437109327:certificate/d52c21b8-44d5-4dd2-a2f1-e3414965c84e
   name: main
   namespace: default
@@ -70,6 +71,10 @@ spec:
     - host: practical.martinski.com
       http:
         paths:
+          - path: /*
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
           - path: /*
             backend:
               serviceName: practical

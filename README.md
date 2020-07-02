@@ -38,7 +38,6 @@ kubectl apply -f practical-deployment.yaml
 ```
 
 TODO:
- - listen on 80, 8443 and redirect to 8443
  - add hpa config
  - add healthcheck, liveness/readiness probes
  - package app into helm
