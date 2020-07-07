@@ -61,3 +61,18 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Construct MONGODB_URL
+*/}}
+{{- define "practical.mongodb_url" -}}
+{{- printf "mongodb://%s:%s@%s:27017/%s" .Values.mongodb.mongodbUsername .Values.mongodb.mongodbPassword (include "practical.mongodb_hostname" .) .Values.mongodb.mongodbDatabase }}
+{{- end }}
+
+{{/*
+Construct mongodb cluster hostname
+*/}}
+{{- define "practical.mongodb_hostname" -}}
+{{ .Release.Name }}-mongodb.{{ .Release.Namespace }}.svc.{{ .Values.mongodb.clusterDomain }}
+{{- end }}
+
