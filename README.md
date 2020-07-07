@@ -30,7 +30,7 @@ Forked https://github.com/martinskis/amazon-eks-custom-amis and made some update
    - ideally would have liked to wrap the app with a semodule accompannying the helm chart
 
 ```sh
-make AWS_REGION=us-east-1 AWS_VPC_ID=vpc-0d5782125c88ebcdf AWS_SUBNET_ID=subnet-0a457c45317ed2715 HARDENING=none cis_bencmark=false build-centos-7
+make AWS_REGION=us-east-1 AWS_VPC_ID=vpc-0d5782125c88ebcdf AWS_SUBNET_ID=subnet-0a457c45317ed2715 HARDENING=none cis_benchmark=false build-centos-7
 ```
 
 ## Set up an AWS EKS cluster with eksctl
