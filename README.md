@@ -6,6 +6,7 @@ The app in production env does a redirect to https, so I added practical.martins
 
 The cluster should be down at the moment. But it is easily reproducible, the steps are documented below.
 
+
 ## Docker image
 
 pushed to dockerhub - martinskis/practical
@@ -39,8 +40,17 @@ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubato
 helm install aws-alb-ingress-controller --set clusterName=practical --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --namespace kube-system incubator/aws-alb-ingress-controller
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
 ```
-TODO:
  - cluster autoscaler - https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
+```sh
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+kubectl -n kube-system annotate deployment.apps/cluster-autoscaler cluster-autoscaler.kubernetes.io/safe-to-evict="false"
+kubectl -n kube-system edit deployment.apps/cluster-autoscaler
+#Edit the cluster-autoscaler container command to replace <YOUR CLUSTER NAME> with your cluster's name, and add the following options.
+#
+#--balance-similar-node-groups
+#
+#--skip-nodes-with-system-pods=false
+```
 
 ## Deploying the application
 ### Deploy MongoDB via Helm package and deploy app with k8s manifests
@@ -63,5 +73,13 @@ helm install practical -f ./practical/values.yaml ./practical-helm
 
 ## Add worker node group with Terraform
 
-TODO:
- - deploy cluster with `eksctl --without-nodegroup`
+Added ./node-group.tf
+
+Deployed an EKS cluster with `eksctl --without-nodegroup`, but ran into issues with the AWS CNI plugin and kubelet start. Checked out the eksctl approach to deploy a worker node group and  the userdata that works fine with eksctl is a long template and am out of time to include this in terraform now..
+
+ - https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html - self managed nodes
+
+```sh
+eksctl create cluster -n practical -r us-east-1 --version 1.15 --without-nodegroup --asg-access  --alb-ingress-access
+terraform apply --auto-approve
+```
