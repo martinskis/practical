@@ -34,7 +34,7 @@ make AWS_REGION=us-east-1 AWS_VPC_ID=vpc-0d5782125c88ebcdf AWS_SUBNET_ID=subnet-
 ## Set up an AWS EKS cluster with eksctl
 
 ```sh
-eksctl create cluster -n practical -r us-east-1 --version 1.15 --nodegroup-name workers1 -m 1 -M 2 --node-ami ami-0df6f99a717252193 --asg-access --full-ecr-access --external-dns-access --alb-ingress-access
+eksctl create cluster -n practical -r us-east-1 --version 1.15 --nodegroup-name workers1 -m 1 -M 2 --node-ami ami-0df6f99a717252193 --asg-access --full-ecr-access --external-dns-access --alb-ingress-access --node-private-networking
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 helm install aws-alb-ingress-controller --set clusterName=practical --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --namespace kube-system incubator/aws-alb-ingress-controller
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
