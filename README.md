@@ -6,6 +6,7 @@ The app in production env does a redirect to https, so I added practical.martins
 
 The cluster should be down at the moment. But it is easily reproducible, the steps are documented below.
 
+![Screenshot](https://github.com/martinskis/practical/blob/master/Screenshot%202020-07-03%20at%2002.05.30.png)
 
 ## Docker image
 
